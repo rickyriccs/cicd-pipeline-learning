@@ -41,6 +41,17 @@ jobs:
           echo "Port length: $(echo -n '${{ secrets.HOSTINGER_PORT }}' | wc -c)"
           echo "User length: $(echo -n '${{ secrets.HOSTINGER_USER }}' | wc -c)"
 
+      - name: Test SSH
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          ssh -o StrictHostKeyChecking=no \
+            -p "${{ secrets.HOSTINGER_PORT }}" \
+            "${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}" \
+            "pwd && ls -la"
+
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
