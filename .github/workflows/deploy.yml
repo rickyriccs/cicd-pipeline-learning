@@ -38,12 +38,16 @@ jobs:
         run: |
           ssh -p ${{ secrets.HOSTINGER_PORT }} ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }} "pwd && ls -la"
 
+      - name: Check Hostinger path
+        run: |
+          ssh -p ${{ secrets.HOSTINGER_PORT }} ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }} "pwd && ls -la && ls -la ${{ secrets.HOSTINGER_PATH }}"
+
       - name: Deploy files
         run: |
-          rsync -avz --delete \
+          rsync -avz \
             --exclude=".git" \
             --exclude=".github" \
             --exclude=".env" \
             --exclude="node_modules" \
             -e "ssh -p ${{ secrets.HOSTINGER_PORT }}" \
-            ./ ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:${{ secrets.HOSTINGER_PATH }}
+            ./ ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:${{ secrets.HOSTINGER_PATH }}/
