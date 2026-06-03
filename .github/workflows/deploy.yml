@@ -1,5 +1,5 @@
 name: Deploy to Hostinger
-environment: cicd
+
 on:
   push:
     branches:
@@ -11,6 +11,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: cicd
 
     steps:
       - name: Checkout code
