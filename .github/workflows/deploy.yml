@@ -35,6 +35,12 @@ jobs:
           test -n "${{ secrets.HOSTINGER_PATH }}" || (echo "HOSTINGER_PATH missing" && exit 1)
           test -n "${{ secrets.HOSTINGER_SSH_KEY }}" || (echo "HOSTINGER_SSH_KEY missing" && exit 1)
 
+      - name: Debug SSH config without exposing secrets
+        run: |
+          echo "Host length: $(echo -n '${{ secrets.HOSTINGER_HOST }}' | wc -c)"
+          echo "Port length: $(echo -n '${{ secrets.HOSTINGER_PORT }}' | wc -c)"
+          echo "User length: $(echo -n '${{ secrets.HOSTINGER_USER }}' | wc -c)"
+
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
