@@ -27,6 +27,14 @@ jobs:
             composer install --no-dev --optimize-autoloader
           fi
 
+      - name: Validate secrets
+        run: |
+          test -n "${{ secrets.HOSTINGER_HOST }}" || (echo "HOSTINGER_HOST missing" && exit 1)
+          test -n "${{ secrets.HOSTINGER_PORT }}" || (echo "HOSTINGER_PORT missing" && exit 1)
+          test -n "${{ secrets.HOSTINGER_USER }}" || (echo "HOSTINGER_USER missing" && exit 1)
+          test -n "${{ secrets.HOSTINGER_PATH }}" || (echo "HOSTINGER_PATH missing" && exit 1)
+          test -n "${{ secrets.HOSTINGER_SSH_KEY }}" || (echo "HOSTINGER_SSH_KEY missing" && exit 1)
+
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
